@@ -11,10 +11,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-/**
- * Created by sda on 23.05.17.
- */
-
 public interface ApiService {
 
   /*  @FormUrlEncoded

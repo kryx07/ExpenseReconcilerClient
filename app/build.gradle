@@ -24,9 +24,7 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -58,8 +56,8 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:8.6.0'
 
     //compile "com.google.dagger:dagger:2.9"
-    compile 'com.google.dagger:dagger:2.9'
-    kapt 'com.google.dagger:dagger-compiler:2.9'
+    compile 'com.google.dagger:dagger:2.4'
+    kapt 'com.google.dagger:dagger-compiler:2.4'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     /*kapt 'com.google.dagger:dagger-compiler:2.9'
@@ -71,9 +69,20 @@ dependencies {
 
     compile 'io.github.microutils:kotlin-logging:1.4.5'
 
-
     compile 'org.greenrobot:eventbus:3.0.0'
 
     compile 'io.realm:android-adapters:2.0.0'
 
+    compile 'com.jakewharton.timber:timber:4.5.1'
+
+    //compile 'com.github.PaulWoitaschek:Slimber:1.0.5'
+
+
+    //moxy
+    compile 'com.arello-mobile:moxy-app-compat:1.1.1'
+    kapt 'com.arello-mobile:moxy-compiler:1.1.1'
+}
+
+kapt {
+    generateStubs = true
 }

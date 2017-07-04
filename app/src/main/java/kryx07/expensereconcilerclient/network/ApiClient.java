@@ -12,10 +12,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-/**
- * Created by sda on 23.05.17.
- */
+import timber.log.Timber;
 
 public class ApiClient {
 
