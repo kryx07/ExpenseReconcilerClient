@@ -2,4 +2,5 @@
     <string name="app_name">ExpenseReconcilerClient</string>
     <string name="shared_prefs">kryx07.expensereconcilerclient.sharedprefs</string>
     <string name="no_value">No value</string>
+    <string name="fetching_error">There was an error fetching your request</string>
 </resources>

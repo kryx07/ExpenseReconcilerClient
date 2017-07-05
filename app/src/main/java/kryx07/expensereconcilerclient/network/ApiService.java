@@ -2,16 +2,25 @@ package kryx07.expensereconcilerclient.network;
 
 import java.util.List;
 
+import kryx07.expensereconcilerclient.model.transactions.Transaction;
+import kryx07.expensereconcilerclient.model.transactions.Transactions;
+import kryx07.expensereconcilerclient.model.users.Users;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 public interface ApiService {
+
+    @GET("users/all")
+    Call<Users> getUsers();
+
+    @GET("transactions/all")
+    Call<Transactions> getTransactions();
+/*
+
+    @GET("transactions/all")
+    Call<List<Transaction>> getTransactions();
+*/
+
 
   /*  @FormUrlEncoded
     @POST("Account/Login")

@@ -1,4 +1,4 @@
-package kryx07.expensereconcilerclient.model
+package kryx07.expensereconcilerclient.model.users
 
 import java.io.Serializable
 

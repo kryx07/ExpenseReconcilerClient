@@ -77,10 +77,13 @@ dependencies {
 
     //compile 'com.github.PaulWoitaschek:Slimber:1.0.5'
 
-
     //moxy
-    compile 'com.arello-mobile:moxy-app-compat:1.1.1'
-    kapt 'com.arello-mobile:moxy-compiler:1.1.1'
+    /* compile 'com.arello-mobile:moxy-app-compat:1.1.1'
+     kapt 'com.arello-mobile:moxy-compiler:1.1.1'*/
+
+    //Joda
+    compile group: 'joda-time', name: 'joda-time', version: '2.3'
+
 }
 
 kapt {
