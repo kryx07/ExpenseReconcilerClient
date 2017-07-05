@@ -2,9 +2,6 @@ package kryx07.expensereconcilerclient.model.transactions
 
 
 import com.google.gson.annotations.SerializedName
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
-import io.realm.annotations.RealmClass
 import kryx07.expensereconcilerclient.model.users.User
 import kryx07.expensereconcilerclient.model.users.Users
 import org.joda.time.LocalDate
@@ -14,7 +11,8 @@ import java.math.BigDecimal
 
 class Transaction :  Serializable {
 
-    @PrimaryKey var id: String? = null
+   // @PrimaryKey
+   var id: String? = null
     var amount: BigDecimal? = null
     var description: String? = null
     var date: LocalDate? = null

@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 
 
 android {
@@ -63,14 +63,14 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"*/
 
 
-    provided 'javax.annotation:jsr250-api:1.0'
+    //provided 'javax.annotation:jsr250-api:1.0'
     //compile 'org.jetbrains.kotlin:kotlin-reflect'
 
-    compile 'io.github.microutils:kotlin-logging:1.4.5'
+    //compile 'io.github.microutils:kotlin-logging:1.4.5'
 
-    compile 'org.greenrobot:eventbus:3.0.0'
+    //compile 'org.greenrobot:eventbus:3.0.0'
 
-    compile 'io.realm:android-adapters:2.0.0'
+    //compile 'io.realm:android-adapters:2.0.0'
 
     compile 'com.jakewharton.timber:timber:4.5.1'
 
@@ -85,8 +85,9 @@ dependencies {
 
     //Room
     compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
+    compile 'android.arch.persistence.room:rxjava2:1.0.0-alpha3'
+    //kapt "android.arch.persistence.room:compiler:1.0.0-alpha3"
     kapt "android.arch.persistence.room:compiler:1.0.0-alpha3"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha3"
 
     // RXJava
     compile 'io.reactivex.rxjava2:rxjava:2.1.0'

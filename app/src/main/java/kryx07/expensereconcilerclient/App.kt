@@ -2,9 +2,8 @@ package kryx07.expensereconcilerclient
 
 import android.app.Application
 import android.arch.persistence.room.Room
+import kryx07.expensereconcilerclient.db.MyDatabase
 
-import io.realm.Realm
-import io.realm.RealmConfiguration
 import kryx07.expensereconcilerclient.di.AppComponent
 import kryx07.expensereconcilerclient.di.AppModule
 import kryx07.expensereconcilerclient.di.DaggerAppComponent
@@ -16,21 +15,24 @@ class App : Application() {
 
 
     companion object {
-//        lateinit var database: MyDatabase
+        lateinit var database: MyDatabase
     }
 
     override fun onCreate() {
         super.onCreate()
-        initRealm()
+        initRoom()
         initDagger()
     }
 
-    private fun initRealm() {
-        Realm.init(this)
-        val configuration = RealmConfiguration.Builder().build()
-        Realm.setDefaultConfiguration(configuration)
-
-      //  database = Room.databaseBuilder(this, MyDatabase::class.java, "we-need-db").build()
+    private fun initRoom() {
+        /*      Realm.init(this)
+              val configuration = RealmConfiguration.Builder().build()
+              Realm.setDefaultConfiguration(configuration)
+      */
+        database = Room
+                .databaseBuilder(this, MyDatabase::class.java, "we-need-db")
+                .allowMainThreadQueries()
+                .build()
     }
 
     private fun initDagger() {

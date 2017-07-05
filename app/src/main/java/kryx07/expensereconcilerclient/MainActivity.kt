@@ -5,7 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.google.gson.Gson
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kryx07.expensereconcilerclient.model.persontest.Person
 import kryx07.expensereconcilerclient.model.transactions.Transaction
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.model.users.Users
@@ -66,5 +70,30 @@ class MainActivity : AppCompatActivity() {
         })
 
 
+
+
     }
+
+
+    fun addPerson(firstName: String, lastName: String) {
+        val person: Person = Person(0, firstName, lastName)
+
+        App.database.personDao().insert(person)
+
+        Single.fromCallable {
+            App.database.personDao().insert(person)
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe()
+    }
+/*
+    fun registerAllPersonListener() {
+
+        App.database?.personDao()?.getAllPeople()
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe { listOfPeople ->
+                    view.personTableUpdated(listOfPeople)
+                }
+    }*/
+
 }
