@@ -51,21 +51,11 @@ class MainActivity : AppCompatActivity() {
     fun fetchTransactions() {
         apiClient.service.transactions.enqueue(object : Callback<Transactions> {
 
-            /*override fun onResponse(call: Call<List<Transaction>>?, response: Response<List<Transaction>>?) {
-                if (response!!.isSuccessful) {
-                    Timber.e(response.body().toString())
-                }
-            }
-
-            override fun onFailure(call: Call<List<Transaction>>?, t: Throwable?) {
-                Timber.e(getString(R.string.fetching_error))
-                Timber.e(t?.message ?: "no message")
-            }
-        })
-*/
             override fun onResponse(call: Call<Transactions>?, response: Response<Transactions>?) {
                 if (response!!.isSuccessful) {
                     Timber.e(response.body().toString())
+                    val transactions: Transactions = Transactions(response.body().transactions)
+                    Timber.e(transactions.toString())
                 }
             }
 

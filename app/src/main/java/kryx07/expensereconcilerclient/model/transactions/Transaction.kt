@@ -12,15 +12,20 @@ import org.joda.time.LocalDate
 import java.io.Serializable
 import java.math.BigDecimal
 
-open class Transaction(@PrimaryKey var id: String? = null,
-                       var amount: BigDecimal? = null,
-                       var description: String? = null,
-                       var date: LocalDate? = null,
-                       var common: Boolean? = null,
-                       var payer: User? = null,
-                       var users: Users? = null,
-                       var payables: Payables? = null) : RealmObject(), Serializable {
+class Transaction :  Serializable {
 
+    @PrimaryKey var id: String? = null
+    var amount: BigDecimal? = null
+    var description: String? = null
+    var date: LocalDate? = null
+    var common: Boolean? = null
+    var payer: User? = null
+    var users: Users? = null
+    var payables: Payables? = null
+
+    override fun toString(): String {
+        return "Transaction(id=$id, amount=$amount, description=$description, date=$date, common=$common, payer=$payer, users=$users, payables=$payables)"
+    }
 
 
 }
