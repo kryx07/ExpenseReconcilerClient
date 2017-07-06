@@ -3,4 +3,11 @@
     <string name="shared_prefs">kryx07.expensereconcilerclient.sharedprefs</string>
     <string name="no_value">No value</string>
     <string name="fetching_error">There was an error fetching your request</string>
+
+    <string name="transactions">Transactions</string>
+    <string name="payables">Payables</string>
+
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
 </resources>

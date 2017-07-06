@@ -3,7 +3,7 @@ package kryx07.expensereconcilerclient.di
 
 import javax.inject.Singleton
 
-import kryx07.expensereconcilerclient.MainActivity
+import kryx07.expensereconcilerclient.ui.MainActivity
 
 @Singleton
 @dagger.Component(modules = arrayOf(AppModule::class))

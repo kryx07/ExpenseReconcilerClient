@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_transactions"
+        android:icon="@drawable/ic_mood_black_24dp"
+        android:title="@string/transactions" />
+
+    <item
+        android:id="@+id/menu_payables"
+        android:icon="@drawable/ic_android_black_24dp"
+        android:title="@string/payables" />
+
+</menu>

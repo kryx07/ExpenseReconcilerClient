@@ -82,7 +82,6 @@ public class ApiClient {
 
             @Override
             public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-                Log.e("Json: ", json.toString());
                 return new LocalDate(json.getAsString());
             }
         }).create();

@@ -10,7 +10,7 @@ import kryx07.expensereconcilerclient.model.persontest.Person
 interface PersonDao {
 
     @Query("SELECT * FROM person")
-    fun getAllPeople(): Flowable<List<Person>>
+    fun getAllPeople(): List<Person>
 
     @Insert
     fun insert(person: Person)
