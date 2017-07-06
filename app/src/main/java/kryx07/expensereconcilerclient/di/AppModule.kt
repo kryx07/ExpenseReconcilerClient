@@ -29,4 +29,6 @@ class AppModule(private val context: Context) {
     fun providesApiClient(sharedPreferencesManager: SharedPreferencesManager): ApiClient {
         return ApiClient(sharedPreferencesManager)
     }
+
+
 }

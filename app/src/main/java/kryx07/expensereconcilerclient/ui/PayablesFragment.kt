@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kryx07.expensereconcilerclient.R
+import javax.inject.Inject
 
-/**
- * Created by sda on 06.07.17.
- */
+
 class PayablesFragment : Fragment() {
+
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_payables, container, false)

@@ -6,24 +6,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
-import butterknife.OnClick
-import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
-import kryx07.expensereconcilerclient.model.persontest.Person
-import kryx07.expensereconcilerclient.model.transactions.Transactions
-import kryx07.expensereconcilerclient.model.users.Users
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by sda on 06.07.17.
  */
 class TransactionsFragment : Fragment() {
+
+    val TAG: String = this::class.java.javaClass.name
+
+    fun newInstance(id: Int): TransactionsFragment {
+        // We cannot use custom constructor - this is a way to pass some data to a fragment
+        val args = Bundle()
+        args.putInt(TAG, id)
+        val fragment = TransactionsFragment()
+        fragment.arguments = args
+        return fragment
+    }
+
+    @Inject
+    lateinit var presenter: TransactionsPresenter
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_transactions, container, false)
         ButterKnife.bind(this, view)
+        Timber.plant(Timber.DebugTree())
         return view
     }
 
@@ -95,3 +105,4 @@ fun getAllPeople() {
     Timber.e(App.database.personDao().getAllPeople().toString())
 }*/
 }
+
