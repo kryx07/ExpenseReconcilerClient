@@ -11,11 +11,12 @@ import kotlinx.android.synthetic.main.activity_dashboard.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.network.ApiClient
-import org.greenrobot.eventbus.EventBus
+import kryx07.expensereconcilerclient.ui.payables.PayablesFragment
+import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 import timber.log.Timber
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity() {
 
     @Inject
     lateinit var apiClient: ApiClient

@@ -1,4 +1,4 @@
-package kryx07.expensereconcilerclient.ui
+package kryx07.expensereconcilerclient.ui.payables
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,38 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kryx07.expensereconcilerclient.R
-import timber.log.Timber
 import javax.inject.Inject
 
-class TransactionsFragment : Fragment() {
 
-    val TAG: String = this::class.java.javaClass.name
+class PayablesFragment : Fragment() {
 
-    fun newInstance(id: Int): TransactionsFragment {
-        // We cannot use custom constructor - this is a way to pass some data to a fragment
-        val args = Bundle()
-        args.putInt(TAG, id)
-        val fragment = TransactionsFragment()
-        fragment.arguments = args
-        return fragment
-    }
-
-    @Inject
-    lateinit var presenter: TransactionsPresenter
-
-    val transactionsAdapter = TransactionsAdapter()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater!!.inflate(R.layout.fragment_transactions, container, false)
+        val view = inflater!!.inflate(R.layout.fragment_payables, container, false)
         ButterKnife.bind(this, view)
-        Timber.plant(Timber.DebugTree())
-
-        presenter.attach(this)
-
-        (activity as MainActivity).supportActionBar?.setTitle(R.string.transactions)
         return view
     }
-
 
     /*   Timber.e(apiClient.javaClass.toString())
 
@@ -108,4 +87,3 @@ fun getAllPeople() {
     Timber.e(App.database.personDao().getAllPeople().toString())
 }*/
 }
-

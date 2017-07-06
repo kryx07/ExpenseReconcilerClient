@@ -3,19 +3,19 @@ package kryx07.expensereconcilerclient.di
 
 import javax.inject.Singleton
 
-import kryx07.expensereconcilerclient.ui.MainActivity
-import kryx07.expensereconcilerclient.ui.TransactionsFragment
+import kryx07.expensereconcilerclient.ui.DashboardActivity
+import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 
 @Singleton
 @dagger.Component(modules = arrayOf(AppModule::class))
 interface AppComponent {
 
-    fun inject(mainActivity: MainActivity)
+    fun inject(dashboardActivity: DashboardActivity)
 
     fun inject(transactionsFragment: TransactionsFragment)
     /*void inject(LoginActivity loginActivity);
 
-    void inject(MainActivity mainActivity);
+    void inject(DashboardActivity mainActivity);
 
     void inject(ContactsFragment contactsFragment);*/
 

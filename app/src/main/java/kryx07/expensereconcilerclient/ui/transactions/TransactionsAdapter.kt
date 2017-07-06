@@ -1,6 +1,5 @@
-package kryx07.expensereconcilerclient.ui
+package kryx07.expensereconcilerclient.ui.transactions
 
-import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -25,5 +24,9 @@ class TransactionsAdapter : RecyclerView.Adapter<TransactionsAdapter.Transaction
 
     class TransactionsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+    }
+
+    fun updateData(allContacts: Any) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
