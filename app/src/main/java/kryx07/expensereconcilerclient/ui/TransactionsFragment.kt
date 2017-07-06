@@ -10,9 +10,6 @@ import kryx07.expensereconcilerclient.R
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * Created by sda on 06.07.17.
- */
 class TransactionsFragment : Fragment() {
 
     val TAG: String = this::class.java.javaClass.name
@@ -29,13 +26,19 @@ class TransactionsFragment : Fragment() {
     @Inject
     lateinit var presenter: TransactionsPresenter
 
+    val transactionsAdapter = TransactionsAdapter()
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_transactions, container, false)
         ButterKnife.bind(this, view)
         Timber.plant(Timber.DebugTree())
+
+        presenter.attach(this)
+
+        (activity as MainActivity).supportActionBar?.setTitle(R.string.transactions)
         return view
     }
+
 
     /*   Timber.e(apiClient.javaClass.toString())
 
