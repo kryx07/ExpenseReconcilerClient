@@ -3,16 +3,20 @@ package kryx07.expensereconcilerclient.ui.transactions
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.fragment_transactions.*
+import kotlinx.android.synthetic.main.fragment_transactions.view.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.ui.DashboardActivity
 import timber.log.Timber
 import javax.inject.Inject
+import javax.inject.Singleton
 
 class TransactionsFragment : Fragment(), TransactionsMvpView {
 
@@ -29,7 +33,7 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
 
     @Inject lateinit var presenter: TransactionsPresenter
 
-    var transactionsAdapter: TransactionsAdapter? = null
+    var adapter: TransactionsAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_transactions, container, false)
@@ -38,11 +42,12 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
         (activity.application as App).appComponent?.inject(this)
 
         //Adapter setup
-        transactionsAdapter = TransactionsAdapter()
-        transactions_recycler.layoutManager = LinearLayoutManager(activity);
-        transactions_recycler.adapter = transactionsAdapter;
+        adapter = TransactionsAdapter()
+//        (view.findViewById(R.id.transactions_recycler) as RecyclerView).layoutManager = LinearLayoutManager(context)
+//        (view.findViewById(R.id.transactions_recycler) as RecyclerView).adapter = adapter
+        view.transactions_recycler.layoutManager = LinearLayoutManager(context)
+        view.transactions_recycler.adapter = adapter
 
-        //TODO("to be implemented")
         presenter.attach(this)
 
         (activity as DashboardActivity).supportActionBar?.setTitle(R.string.transactions)
@@ -59,8 +64,8 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
         super.onDestroyView()
     }
 
-    override fun updateData() {
-        transactionsAdapter?.updateData(presenter.getAllTransactions())
+    override fun updateData(transactions: Transactions) {
+        adapter?.updateData(transactions)
     }
 
     /*   Timber.e(apiClient.javaClass.toString())

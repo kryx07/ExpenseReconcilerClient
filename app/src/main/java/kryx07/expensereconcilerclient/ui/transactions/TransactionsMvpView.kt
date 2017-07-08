@@ -1,9 +1,8 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
-/**
- * Created by wd41 on 06.07.17.
- */
+import kryx07.expensereconcilerclient.model.transactions.Transactions
+
 interface TransactionsMvpView {
 
-    fun updateData()
+    fun updateData(transactions: Transactions)
 }

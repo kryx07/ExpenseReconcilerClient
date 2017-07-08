@@ -1,32 +1,54 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
 import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import butterknife.BindView
+import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.item_adapter.view.*
+import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.model.transactions.Transaction
+import kryx07.expensereconcilerclient.model.transactions.Transactions
+import timber.log.Timber
+import java.text.NumberFormat
 
-
-/**
- * Created by sda on 06.07.17.
- */
 class TransactionsAdapter : RecyclerView.Adapter<TransactionsAdapter.TransactionsHolder>() {
+
+    var transactions = Transactions(mutableListOf<Transaction>())
+
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionsHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timber.plant(Timber.DebugTree())
+        Timber.e("onCreateViewHolder")
+        return TransactionsHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_adapter, parent, false))
     }
 
     override fun onBindViewHolder(holder: TransactionsHolder?, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timber.e("onBindViewHolder")
+        holder?.setupTransaction(transactions.transactions[position])
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun getItemCount(): Int = transactions.transactions.size
 
     class TransactionsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
+        fun setupTransaction(transaction: Transaction) {
+            Timber.e("setupTransaction")
+
+            itemView.date_text.text = transaction.date.toString()
+            itemView.description_text.text = transaction.description.toString()
+            itemView.amount_text.text = "%.2f".format(transaction.amount) + " " + itemView.context.getString(R.string.currency)
+        }
+
     }
 
-    fun updateData(allContacts: Any) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun updateData(transactions: Transactions) {
+        Timber.e("update Data: " + transactions)
+
+        this.transactions.clear()
+        this.transactions.addAll(transactions.transactions)
+        notifyDataSetChanged()
     }
 }
