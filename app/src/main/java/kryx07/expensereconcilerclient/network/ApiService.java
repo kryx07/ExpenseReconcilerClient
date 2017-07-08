@@ -2,6 +2,7 @@ package kryx07.expensereconcilerclient.network;
 
 import java.util.List;
 
+import kryx07.expensereconcilerclient.model.transactions.Payables;
 import kryx07.expensereconcilerclient.model.transactions.Transaction;
 import kryx07.expensereconcilerclient.model.transactions.Transactions;
 import kryx07.expensereconcilerclient.model.users.Users;
@@ -15,6 +16,9 @@ public interface ApiService {
 
     @GET("transactions/all")
     Call<Transactions> getTransactions();
+
+    @GET("/reconciliation/payables-all")
+    Call<Payables> getPayables();
 /*
 
     @GET("transactions/all")
