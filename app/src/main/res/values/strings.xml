@@ -9,10 +9,12 @@
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+
     <string name="currency">PLN</string>
+
     <string name="me">Me</string>
     <string name="my_user">MY_USER</string>
-    <string name="receivables_total">Receivables Total:</string>
-    <string name="payables_total">Payables Total</string>
+    <string name="receivables_total">Receivables Total: </string>
+    <string name="payables_total">Payables Total: </string>
 
 </resources>

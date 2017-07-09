@@ -32,6 +32,7 @@ import javax.inject.Inject
 
 class PayablesFragment : Fragment(), PayablesMvpView {
 
+
     val TAG: String = this::class.java.javaClass.name
 
 
@@ -80,10 +81,15 @@ class PayablesFragment : Fragment(), PayablesMvpView {
 
     override fun updateData(payables: Payables) {
         adapter?.updateData(payables)
-        setTotals(payables)
     }
 
-    private fun setTotals(allPayables: Payables) {
+    override fun updateTotals(receivablesTotal: BigDecimal, payablesTotal: BigDecimal) {
+        payables_total_amount.text = StringUtilities.formatCurrency(payablesTotal, getString(R.string.currency))
+        receivables_total_amount.text = StringUtilities.formatCurrency(receivablesTotal, getString(R.string.currency))
+        payables_total_amount.setTextColor(Color.RED)
+        receivables_total_amount.setTextColor(Color.GREEN)
+    }
+    /*private fun setTotals(allPayables: Payables) {
         var myPayables = BigDecimal(0)
         var myReceivables = BigDecimal(0)
 
@@ -100,5 +106,5 @@ class PayablesFragment : Fragment(), PayablesMvpView {
         payables_total_amount.setTextColor(Color.RED)
         receivables_total_amount.setTextColor(Color.GREEN)
     }
-
+*/
 }
