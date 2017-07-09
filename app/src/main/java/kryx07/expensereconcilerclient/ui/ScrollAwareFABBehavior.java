@@ -1,4 +1,4 @@
-package kryx07.expensereconcilerclient.utils;
+package kryx07.expensereconcilerclient.ui;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

@@ -1,5 +1,6 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -52,6 +53,8 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
         presenter.attach(this)
 
         (activity as DashboardActivity).supportActionBar?.setTitle(R.string.transactions)
+        //view.fab.setBackgroundColor(R.color.orange)
+        //view.fab.backgroundTintList = ColorStateList.valueOf(R.color.orange)
         return view
     }
 

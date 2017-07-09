@@ -1,5 +1,6 @@
 package kryx07.expensereconcilerclient.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -41,6 +42,8 @@ class DashboardActivity : AppCompatActivity() {
         (application as App).appComponent?.inject(this)
 
         sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
+
+        dashboard_progress.indeterminateDrawable.setColorFilter(Color.GRAY, android.graphics.PorterDuff.Mode.SRC_IN)
 
 
     }
