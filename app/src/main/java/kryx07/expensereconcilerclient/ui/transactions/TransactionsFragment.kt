@@ -1,5 +1,6 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
