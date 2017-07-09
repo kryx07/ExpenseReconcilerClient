@@ -4,14 +4,16 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
+import io.reactivex.Flowable
+import kryx07.expensereconcilerclient.model.transactions.Payable
 import kryx07.expensereconcilerclient.model.transactions.Transaction
 
 @Dao
-interface TransactionDao {
+interface PayablesDao {
 
-    @Query("SELECT * FROM transactions")
-    fun getAll(): List<Transaction>
+    @Query("SELECT * FROM Payables")
+    fun getAll(): List<Payable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(transaction: Transaction)
+    fun insert(payable: Payable)
 }

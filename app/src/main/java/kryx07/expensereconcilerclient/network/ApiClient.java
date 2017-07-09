@@ -32,8 +32,8 @@ import timber.log.Timber;
 public class ApiClient {
 
     //private static final String BASE_URL = "http://localhost:8090/";
-    //private static final String BASE_URL = "http://89.70.46.105:8090/";
-    private static final String BASE_URL = "http://192.168.43.231:8090/";
+    private static final String BASE_URL = "http://89.70.46.105:8090/";
+//    private static final String BASE_URL = "http://192.168.43.231:8090/";
 
     private ApiService service;
 

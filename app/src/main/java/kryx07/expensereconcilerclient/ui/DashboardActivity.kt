@@ -29,9 +29,9 @@ class DashboardActivity : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
         //EventBus.getDefault().register(this)
         setupDrawerAndToolbar()
-        if (savedInstanceState == null) {
+       /* if (savedInstanceState == null) {
             showFragment(TransactionsFragment())
-        }
+        }*/
         (application as App).appComponent?.inject(this)
 
         sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
