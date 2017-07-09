@@ -4,8 +4,38 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/receivables_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/receivables_total" />
+
+    <TextView
+        android:id="@+id/payables_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/receivables_total"
+        android:layout_marginBottom="@dimen/margin_item_adapter"
+        android:text="@string/payables_total" />
+
+    <TextView
+        android:id="@+id/receivables_total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/receivables_total"
+        android:paddingStart="@dimen/margin_item_adapter" />
+
+    <TextView
+        android:id="@+id/payables_total_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/receivables_total"
+        android:layout_marginBottom="@dimen/margin_item_adapter"
+        android:layout_toEndOf="@id/payables_total"
+        android:paddingStart="@dimen/margin_item_adapter" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/payables_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:text="Payables Fragment" />
+        android:layout_below="@id/payables_total_amount" />
 </RelativeLayout>

@@ -1,27 +1,53 @@
 package kryx07.expensereconcilerclient.ui.payables
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.fragment_payables.*
+import kotlinx.android.synthetic.main.fragment_payables.view.*
+import kotlinx.android.synthetic.main.fragment_transactions.*
+import kotlinx.android.synthetic.main.fragment_transactions.view.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.model.transactions.Payables
+import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.network.ApiService
-import kryx07.expensereconcilerclient.ui.transactions.TransactionsPresenter
+import kryx07.expensereconcilerclient.ui.DashboardActivity
+import kryx07.expensereconcilerclient.ui.transactions.*
+import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
+import kryx07.expensereconcilerclient.utils.StringUtilities
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
+import java.math.BigDecimal
 import javax.inject.Inject
 
 
-class PayablesFragment : Fragment() {
+class PayablesFragment : Fragment(), PayablesMvpView {
 
-    @Inject lateinit var apiClient: ApiClient
+    val TAG: String = this::class.java.javaClass.name
+
+
+    fun newInstance(id: Int): PayablesFragment {
+        // We cannot use custom constructor - this is a way to pass some data to a fragment
+        val args = Bundle()
+        args.putInt(TAG, id)
+        val fragment = PayablesFragment()
+        fragment.arguments = args
+        return fragment
+    }
+
+    @Inject lateinit var presenter: PayablesPresenter
+    @Inject lateinit var sharedPrefs: SharedPreferencesManager
+    var adapter: PayablesAdapter? = null
+    lateinit var myUserName: String
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_payables, container, false)
@@ -29,87 +55,50 @@ class PayablesFragment : Fragment() {
         Timber.plant(Timber.DebugTree())
         (activity.application as App).appComponent?.inject(this)
 
-        apiClient.service.payables.enqueue(object : Callback<Payables> {
+        this.myUserName = sharedPrefs.read(getString(kryx07.expensereconcilerclient.R.string.my_user))
+        this.adapter = PayablesAdapter(myUserName)
+        view.payables_recycler.layoutManager = LinearLayoutManager(context)
+        view.payables_recycler.adapter = adapter
 
-            override fun onResponse(call: Call<Payables>?, response: Response<Payables>?) {
-                Timber.e(response!!.body().toString())
+        presenter.attach(this)
 
-            }
-
-            override fun onFailure(call: Call<Payables>?, t: Throwable?) {
-                Timber.e(getString(R.string.fetching_error))
-            }
-
-        })
+        (activity as DashboardActivity).supportActionBar?.setTitle(R.string.payables)
 
         return view
     }
 
-    /*   Timber.e(apiClient.javaClass.toString())
 
-       apiClient.service.users.enqueue(
-       object : Callback<Users> {
-           override fun onResponse(call: Call<Users>?, response: Response<Users>?) {
-               if (response!!.isSuccessful) {
-                   Timber.e(response.body().toString())
-               }
-           }
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
+    }
 
-           override fun onFailure(call: Call<Users>?, t: Throwable?) {
-               Timber.e(getString(R.string.fetching_error))
-           }
+    override fun onDestroyView() {
+        presenter.detach()
+        super.onDestroyView()
+    }
 
-       })
+    override fun updateData(payables: Payables) {
+        adapter?.updateData(payables)
+        setTotals(payables)
+    }
 
-       fetchTransactions()
-       addPerson("dupa", "dupa2")
-       getAllPeople()
-   }
+    private fun setTotals(allPayables: Payables) {
+        var myPayables = BigDecimal(0)
+        var myReceivables = BigDecimal(0)
 
-   @OnClick(R.id.test_button)
-   fun fetchTransactions() {
-       apiClient.service.transactions.enqueue(object : Callback<Transactions> {
+        allPayables.payables.forEach { (debtor, payer, amount) ->
+            if (debtor.userName == myUserName) {
+                myReceivables = myReceivables.add(amount)
+            } else if (payer.userName == myUserName) {
+                myPayables = myPayables.add(amount)
+            }
+        }
 
-           override fun onResponse(call: Call<Transactions>?, response: Response<Transactions>?) {
-               if (response!!.isSuccessful) {
-                   Timber.e(response.body().toString())
-                   val transactions: Transactions = Transactions(response.body().transactions)
-                   Timber.e(transactions.toString())
-               }
-           }
+        payables_total_amount.text = StringUtilities.formatCurrency(myPayables, getString(R.string.currency))
+        receivables_total_amount.text = StringUtilities.formatCurrency(myReceivables, getString(R.string.currency))
+        payables_total_amount.setTextColor(Color.RED)
+        receivables_total_amount.setTextColor(Color.GREEN)
+    }
 
-           override fun onFailure(call: Call<Transactions>?, t: Throwable?) {
-               Timber.e(getString(R.string.fetching_error))
-               Timber.e(t?.message ?: "no message")
-           }
-       })
-
-
-   }
-
-
-   fun addPerson(firstName: String, lastName: String) {
-       val person: Person = Person(0, firstName, lastName)
-
-       App.database.personDao().insert(person)
-
-       *//*   Single.fromCallable {
-           App.database.personDao().insert(person)
-       }.subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread()).subscribe()*//*
-}
-*//*
-    fun registerAllPersonListener() {
-
-        App.database?.personDao()?.getAllPeople()
-                ?.subscribeOn(Schedulers.io())
-                ?.observeOn(AndroidSchedulers.mainThread())
-                ?.subscribe { listOfPeople ->
-                    view.personTableUpdated(listOfPeople)
-                }
-    }*//*
-
-fun getAllPeople() {
-    Timber.e(App.database.personDao().getAllPeople().toString())
-}*/
 }

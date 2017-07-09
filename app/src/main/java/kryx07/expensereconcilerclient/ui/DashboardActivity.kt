@@ -13,13 +13,14 @@ import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.ui.payables.PayablesFragment
 import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
+import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import timber.log.Timber
 import javax.inject.Inject
 
 class DashboardActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var apiClient: ApiClient
+    @Inject lateinit var apiClient: ApiClient
+    @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +32,10 @@ class DashboardActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             showFragment(TransactionsFragment())
         }
-
         (application as App).appComponent?.inject(this)
+
+        sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
+
 
     }
 

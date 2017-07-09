@@ -3,14 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:text="Transactions Fragment" />-->
-
-    <android.support.v7.widget.RecyclerView
+      <android.support.v7.widget.RecyclerView
         android:id="@+id/transactions_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+       />
 </RelativeLayout>

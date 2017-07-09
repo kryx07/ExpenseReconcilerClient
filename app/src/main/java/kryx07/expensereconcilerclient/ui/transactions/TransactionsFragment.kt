@@ -91,13 +91,13 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
 
    @OnClick(R.id.test_button)
    fun fetchTransactions() {
-       apiClient.service.transactions.enqueue(object : Callback<Transactions> {
+       apiClient.service.payables.enqueue(object : Callback<Transactions> {
 
            override fun onResponse(call: Call<Transactions>?, response: Response<Transactions>?) {
                if (response!!.isSuccessful) {
                    Timber.e(response.body().toString())
-                   val transactions: Transactions = Transactions(response.body().transactions)
-                   Timber.e(transactions.toString())
+                   val payables: Transactions = Transactions(response.body().payables)
+                   Timber.e(payables.toString())
                }
            }
 

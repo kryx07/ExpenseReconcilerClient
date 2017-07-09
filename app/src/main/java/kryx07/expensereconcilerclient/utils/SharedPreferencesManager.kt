@@ -11,7 +11,7 @@ class SharedPreferencesManager(val context: Context) {
     private val editor: SharedPreferences.Editor = context.getSharedPreferences(context.getString(R.string.shared_prefs), 0).edit()
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(context.getString(R.string.shared_prefs), Context.MODE_PRIVATE)
 
-    fun write(string: String, key: String) {
+    fun write(key: String, string: String) {
 
         editor.putString(key, string)
         editor.apply()
