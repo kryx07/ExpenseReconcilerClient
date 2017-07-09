@@ -6,14 +6,20 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
+import android.view.View
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.events.HideProgress
+import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.ui.payables.PayablesFragment
 import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,11 +33,11 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
         ButterKnife.bind(this)
         Timber.plant(Timber.DebugTree())
-        //EventBus.getDefault().register(this)
+        EventBus.getDefault().register(this)
         setupDrawerAndToolbar()
-       /* if (savedInstanceState == null) {
-            showFragment(TransactionsFragment())
-        }*/
+        /* if (savedInstanceState == null) {
+             showFragment(TransactionsFragment())
+         }*/
         (application as App).appComponent?.inject(this)
 
         sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
@@ -61,6 +67,20 @@ class DashboardActivity : AppCompatActivity() {
             }
             false
         })
+    }
+
+    @Subscribe
+    fun onShowProgress(showProgress: ShowProgress) {
+        fragment_container.visibility = View.INVISIBLE
+        dashboard_progress.visibility = View.VISIBLE
+
+    }
+
+    @Subscribe
+    fun onHideProgress(showProgress: HideProgress) {
+        fragment_container.visibility = View.VISIBLE
+        dashboard_progress.visibility = View.GONE
+
     }
 
     private fun showFragment(fragment: Fragment) {

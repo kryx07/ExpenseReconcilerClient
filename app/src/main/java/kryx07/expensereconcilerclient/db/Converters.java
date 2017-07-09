@@ -12,10 +12,6 @@ import java.math.BigDecimal;
 
 import kryx07.expensereconcilerclient.model.users.Users;
 
-/**
- * Created by wd40 on 09.07.17.
- */
-
 public class Converters {
     @TypeConverter
     public static LocalDate fromTimestamp(String value) {

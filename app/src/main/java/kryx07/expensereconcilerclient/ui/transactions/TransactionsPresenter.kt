@@ -1,12 +1,16 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
 import android.content.Context
+import android.widget.Toast
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.db.MyDatabase
+import kryx07.expensereconcilerclient.events.HideProgress
+import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
+import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +35,8 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var co
 
     fun start() {
 
+        EventBus.getDefault().post(ShowProgress())
+
         apiClient.service.getTransactions(sharedPrefs.read(context.getString(R.string.my_user)))
                 .enqueue(object : Callback<Transactions> {
                     override fun onResponse(call: Call<Transactions>?, response: Response<Transactions>?) {
@@ -43,11 +49,16 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var co
                                 database.transactionDao().insert(transaction)
                             }
                             Timber.e("Read from db: " + database.transactionDao().getAll().toString())
+
                         }
+                        EventBus.getDefault().post(HideProgress())
+
                     }
 
                     override fun onFailure(call: Call<Transactions>?, t: Throwable?) {
                         Timber.e(context.getString(R.string.fetching_error))
+                        Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
+                        EventBus.getDefault().post(HideProgress())
                     }
 
                 })
