@@ -1,10 +1,13 @@
 package kryx07.expensereconcilerclient.model.users
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import java.io.Serializable
 
-data class User(var userName: String) : Serializable {
+@Entity(tableName = "users")
+data class User(@PrimaryKey var userName: String) : Serializable {
 
-    private val serialVersionUID = 53877953648246L
+    //   private val serialVersionUID = 53877953648246L
 
     //var userName: String? = null
 

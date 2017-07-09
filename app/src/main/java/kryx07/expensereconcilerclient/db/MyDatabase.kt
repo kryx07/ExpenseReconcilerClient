@@ -2,9 +2,13 @@ package kryx07.expensereconcilerclient.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import kryx07.expensereconcilerclient.model.persontest.Person
+import android.arch.persistence.room.TypeConverters
+import kryx07.expensereconcilerclient.model.transactions.Transaction
 
-@Database(entities = arrayOf(Person::class), version = 1)
+@Database(entities = arrayOf(Transaction::class), version = 4)
+@TypeConverters(*arrayOf(Converters::class))
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun personDao(): PersonDao
+    //    abstract fun personDao(): PersonDao
+    abstract fun transactionDao(): TransactionDao
 }
+

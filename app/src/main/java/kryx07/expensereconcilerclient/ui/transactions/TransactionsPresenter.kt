@@ -1,7 +1,9 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
 import android.content.Context
+import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
@@ -14,10 +16,12 @@ import javax.inject.Inject
 class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedPrefs: SharedPreferencesManager) {
 
     private var view: TransactionsMvpView? = null
+    lateinit var database: MyDatabase
 
     fun attach(transactionsMvpView: TransactionsMvpView) {
         this.view = transactionsMvpView
         Timber.plant(Timber.DebugTree())
+        database = App.database
     }
 
 
@@ -34,6 +38,11 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var co
                             Timber.e(response.body().toString())
                             val transactions = response.body()
                             view?.updateData(transactions)
+
+                            for (transaction in transactions.transactions) {
+                                database.transactionDao().insert(transaction)
+                            }
+                            Timber.e("Read from db: " + database.transactionDao().getAll().toString())
                         }
                     }
 

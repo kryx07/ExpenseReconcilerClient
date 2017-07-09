@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_transactions.*
 import kotlinx.android.synthetic.main.fragment_transactions.view.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.ui.DashboardActivity
 import timber.log.Timber
@@ -33,7 +34,6 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
     }
 
     @Inject lateinit var presenter: TransactionsPresenter
-
     var adapter: TransactionsAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
