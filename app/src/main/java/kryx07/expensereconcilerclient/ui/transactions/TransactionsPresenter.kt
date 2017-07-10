@@ -86,7 +86,6 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
 
     private fun showProgress() {
         EventBus.getDefault().post(ShowProgress())
-        //EventBus.getDefault().post(ShowRefresher())
     }
 
     private fun hideProgress() {

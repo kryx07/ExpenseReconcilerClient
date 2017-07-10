@@ -8,13 +8,16 @@ import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
+import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.events.ShowProgress
+import kryx07.expensereconcilerclient.events.ShowRefresher
 import kryx07.expensereconcilerclient.model.transactions.Payables
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import kryx07.expensereconcilerclient.utils.StringUtilities
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +43,11 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var contex
 
     fun start() {
 
-        EventBus.getDefault().post(ShowProgress())
+        requestPayables()
+    }
+
+    private fun requestPayables() {
+        showProgress()
 
         apiClient.service.getPayables(sharedprefs.read(context.getString(R.string.my_user))).enqueue(object : Callback<Payables> {
 
@@ -55,18 +62,37 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var contex
                     }
                     Timber.e("Read from db: " + database.payablesDao().getAll().toString())
                 }
-                EventBus.getDefault().post(HideProgress())
-
+                hideProgress()
             }
 
             override fun onFailure(call: Call<Payables>?, t: Throwable?) {
-                Timber.e(context.getString(R.string.fetching_error))
-                Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
-                EventBus.getDefault().post(HideProgress())
-
+                showErrorMessage()
+                hideProgress()
             }
 
         })
+    }
+
+    @Subscribe()
+    fun onRefresh(showRefresher: ShowRefresher) {
+        if (view != null) {
+            if (showRefresher.fragmentTAG == view!!.provideTAG())
+
+                Timber.e("onRefresh received")
+            requestPayables()
+        } else {
+            Timber.e("View is null")
+        }
+
+    }
+
+    private fun showProgress() {
+        EventBus.getDefault().post(ShowProgress())
+    }
+
+    private fun hideProgress() {
+        EventBus.getDefault().post(HideProgress())
+        EventBus.getDefault().post(HideRefresher())
     }
 
     private fun setTotals(allPayables: Payables) {
@@ -85,5 +111,9 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var contex
         view?.updateTotals(myReceivables, myPayables)
     }
 
+    private fun showErrorMessage() {
+        Timber.e(context.getString(R.string.fetching_error))
+        Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
+    }
 
 }
