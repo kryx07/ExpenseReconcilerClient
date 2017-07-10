@@ -10,17 +10,15 @@ import kryx07.expensereconcilerclient.di.DaggerAppComponent
 
 class App : Application() {
 
-    var appComponent: AppComponent? = null
-        private set
-
 
     companion object {
-        lateinit var database: MyDatabase
+        lateinit var appComponent: AppComponent
+        //lateinit var database: MyDatabase
     }
 
     override fun onCreate() {
         super.onCreate()
-        initRoom()
+        //initRoom()
         initDagger()
     }
 
@@ -29,10 +27,10 @@ class App : Application() {
               val configuration = RealmConfiguration.Builder().build()
               Realm.setDefaultConfiguration(configuration)
       */
-        database = Room
+        /*database = Room
                 .databaseBuilder(this, MyDatabase::class.java, "we-need-db")
                 .allowMainThreadQueries()
-                .build()
+                .build()*/
     }
 
     private fun initDagger() {

@@ -55,7 +55,7 @@ class PayablesFragment : Fragment(), PayablesMvpView {
         val view = inflater!!.inflate(R.layout.fragment_payables, container, false)
         ButterKnife.bind(this, view)
         Timber.plant(Timber.DebugTree())
-        (activity.application as App).appComponent?.inject(this)
+        App.appComponent.inject(this)
 
         this.myUserName = sharedPrefs.read(getString(kryx07.expensereconcilerclient.R.string.my_user))
         this.adapter = PayablesAdapter(myUserName)

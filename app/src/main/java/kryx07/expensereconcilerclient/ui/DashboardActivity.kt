@@ -20,9 +20,12 @@ import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import timber.log.Timber
 import javax.inject.Inject
+import android.support.v4.widget.SwipeRefreshLayout
+import kryx07.expensereconcilerclient.events.StartRefresher
+import kryx07.expensereconcilerclient.events.StopRefresher
+
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -36,11 +39,12 @@ class DashboardActivity : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
         EventBus.getDefault().register(this)
         setupDrawerAndToolbar()
-        /* if (savedInstanceState == null) {
-             showFragment(TransactionsFragment())
-         }*/
-        (application as App).appComponent?.inject(this)
+        if (savedInstanceState == null) {
+            showFragment(TransactionsFragment())
+        }
+        App.appComponent.inject(this)
 
+        //to be replaced with login!!!
         sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
 
         dashboard_progress.indeterminateDrawable.setColorFilter(Color.GRAY, android.graphics.PorterDuff.Mode.SRC_IN)
@@ -70,6 +74,31 @@ class DashboardActivity : AppCompatActivity() {
             }
             false
         })
+    }
+
+    fun setupSwipeRefresher() {
+        swipe_refresher.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            EventBus().post(StartRefresher())
+            swipe_refresher.setColorSchemeResources(
+                    R.color.colorPrimary,
+                    R.color.accent_material_light,
+                    R.color.dark_yellow,
+                    R.color.colorAccent)
+        })
+        startSwipeRefresher()
+    }
+
+    @Subscribe
+    fun onStopSwipeRefresher(stopRefresher: StopRefresher) {
+        stopSwipeRefresher()
+    }
+
+    private fun startSwipeRefresher() {
+        swipe_refresher.isRefreshing = true
+    }
+
+    private fun stopSwipeRefresher() {
+        swipe_refresher.isRefreshing = false
     }
 
     @Subscribe
@@ -103,4 +132,6 @@ class DashboardActivity : AppCompatActivity() {
         }
         dashboard_drawer.closeDrawer(Gravity.START)
     }
+
+
 }

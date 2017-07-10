@@ -41,7 +41,7 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
         val view = inflater!!.inflate(R.layout.fragment_transactions, container, false)
         ButterKnife.bind(this, view)
         Timber.plant(Timber.DebugTree())
-        (activity.application as App).appComponent?.inject(this)
+        App.appComponent.inject(this)
 
         //Adapter setup
         adapter = TransactionsAdapter()

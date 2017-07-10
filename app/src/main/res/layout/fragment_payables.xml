@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/receivables_total"
         android:paddingStart="@dimen/margin_item_adapter"
+        android:paddingTop="@dimen/margin_item_adapter"
         android:textSize="@dimen/enlarged_text" />
 
     <TextView

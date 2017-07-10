@@ -17,15 +17,15 @@ import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedPrefs: SharedPreferencesManager) {
+class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedPrefs: SharedPreferencesManager, val database: MyDatabase) {
 
     private var view: TransactionsMvpView? = null
-    lateinit var database: MyDatabase
+//    lateinit var database: MyDatabase
 
     fun attach(transactionsMvpView: TransactionsMvpView) {
         this.view = transactionsMvpView
         Timber.plant(Timber.DebugTree())
-        database = App.database
+//        database = App.database
     }
 
 

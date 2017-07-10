@@ -22,16 +22,16 @@ import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedprefs: SharedPreferencesManager) {
+class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedprefs: SharedPreferencesManager, val database: MyDatabase) {
 
     private var view: PayablesMvpView? = null
 
-    lateinit var database: MyDatabase
+//    lateinit var database: MyDatabase
 
     fun attach(payablesMvpView: PayablesMvpView) {
         this.view = payablesMvpView
         Timber.plant(Timber.DebugTree())
-        this.database = App.database
+//        this.database = App.database
     }
 
     fun detach() {
