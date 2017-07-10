@@ -7,6 +7,7 @@ import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.di.AppComponent
 import kryx07.expensereconcilerclient.di.AppModule
 import kryx07.expensereconcilerclient.di.DaggerAppComponent
+import timber.log.Timber
 
 class App : Application() {
 
@@ -20,6 +21,11 @@ class App : Application() {
         super.onCreate()
         //initRoom()
         initDagger()
+        initTimber()
+    }
+
+    private fun initTimber() {
+        Timber.plant(Timber.DebugTree())
     }
 
     private fun initRoom() {

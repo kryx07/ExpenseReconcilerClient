@@ -23,8 +23,10 @@ import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import javax.inject.Inject
 import android.support.v4.widget.SwipeRefreshLayout
-import kryx07.expensereconcilerclient.events.StartRefresher
-import kryx07.expensereconcilerclient.events.StopRefresher
+import butterknife.OnClick
+import kryx07.expensereconcilerclient.base.MvpView
+import kryx07.expensereconcilerclient.events.ShowRefresher
+import kryx07.expensereconcilerclient.events.HideRefresher
 
 
 class DashboardActivity : AppCompatActivity() {
@@ -36,9 +38,11 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         ButterKnife.bind(this)
-        Timber.plant(Timber.DebugTree())
+        //Timber.plant(Timber.DebugTree())
         EventBus.getDefault().register(this)
+
         setupDrawerAndToolbar()
+        setupSwipeRefresher()
         if (savedInstanceState == null) {
             showFragment(TransactionsFragment())
         }
@@ -49,6 +53,7 @@ class DashboardActivity : AppCompatActivity() {
 
         dashboard_progress.indeterminateDrawable.setColorFilter(Color.GRAY, android.graphics.PorterDuff.Mode.SRC_IN)
 
+        //my_button.setOnClickListener { Timber.e(getVisibleFragment().toString()) }
 
     }
 
@@ -77,27 +82,38 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     fun setupSwipeRefresher() {
+
         swipe_refresher.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            EventBus().post(StartRefresher())
+            val visibleFragment: MvpView? = getVisibleFragment()
+            if (visibleFragment != null) {
+                EventBus.getDefault().post(ShowRefresher(visibleFragment.provideTAG()))
+            } else {
+                Timber.e("There is no visible fragmentTAG")
+            }
             swipe_refresher.setColorSchemeResources(
                     R.color.colorPrimary,
                     R.color.accent_material_light,
                     R.color.dark_yellow,
                     R.color.colorAccent)
+            showSwipeRefresher()
+            Timber.e("On refresh listener")
         })
-        startSwipeRefresher()
+
     }
 
     @Subscribe
-    fun onStopSwipeRefresher(stopRefresher: StopRefresher) {
-        stopSwipeRefresher()
+    fun onHideSwipeRefresher(hideRefresher: HideRefresher) {
+        Timber.e("On hide event received")
+        hideSwipeRefresher()
     }
 
-    private fun startSwipeRefresher() {
+    private fun showSwipeRefresher() {
+        Timber.e("SwipeRefresher shown")
         swipe_refresher.isRefreshing = true
     }
 
-    private fun stopSwipeRefresher() {
+    private fun hideSwipeRefresher() {
+        Timber.e("SwipeRefresher hidden")
         swipe_refresher.isRefreshing = false
     }
 
@@ -120,18 +136,28 @@ class DashboardActivity : AppCompatActivity() {
         val manager = supportFragmentManager
 
         if (manager.findFragmentByTag(tag) == null) {
-            // This fragment does not lie on back stack, need to be added
+            // This fragmentTAG does not lie on back stack, need to be added
             manager.beginTransaction()
-                    // Add a tag to prevent duplicating insertions of the same fragment
+                    // Add a tag to prevent duplicating insertions of the same fragmentTAG
                     .replace(R.id.fragment_container, fragment, tag)
                     .addToBackStack(tag)
                     .commit()
         } else {
-            // Get the fragment from the back stack
+            // Get the fragmentTAG from the back stack
             manager.popBackStackImmediate(tag, 0)
         }
         dashboard_drawer.closeDrawer(Gravity.START)
     }
 
+    fun getVisibleFragment(): MvpView? {
+        val fragmentManager = this.supportFragmentManager
+        val fragments = fragmentManager.fragments
+        if (fragments != null) {
+            fragments
+                    .filter { it != null && it.isVisible }
+                    .forEach { return it as MvpView }
+        }
+        return null
+    }
 
 }

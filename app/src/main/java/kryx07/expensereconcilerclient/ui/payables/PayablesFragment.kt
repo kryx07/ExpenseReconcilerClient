@@ -33,12 +33,11 @@ import javax.inject.Inject
 
 class PayablesFragment : Fragment(), PayablesMvpView {
 
-
     val TAG: String = this::class.java.javaClass.name
-
+    override fun provideTAG(): String = TAG
 
     fun newInstance(id: Int): PayablesFragment {
-        // We cannot use custom constructor - this is a way to pass some data to a fragment
+        // We cannot use custom constructor - this is a way to pass some data to a fragmentTAG
         val args = Bundle()
         args.putInt(TAG, id)
         val fragment = PayablesFragment()
@@ -54,7 +53,7 @@ class PayablesFragment : Fragment(), PayablesMvpView {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_payables, container, false)
         ButterKnife.bind(this, view)
-        Timber.plant(Timber.DebugTree())
+//        Timber.plant(Timber.DebugTree())
         App.appComponent.inject(this)
 
         this.myUserName = sharedPrefs.read(getString(kryx07.expensereconcilerclient.R.string.my_user))

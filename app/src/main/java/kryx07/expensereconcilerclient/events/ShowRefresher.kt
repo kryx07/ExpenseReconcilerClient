@@ -2,5 +2,5 @@ package kryx07.expensereconcilerclient.events
 
 import android.app.Fragment
 
-class ShowProgress {
+class ShowRefresher(val fragmentTAG: String) {
 }

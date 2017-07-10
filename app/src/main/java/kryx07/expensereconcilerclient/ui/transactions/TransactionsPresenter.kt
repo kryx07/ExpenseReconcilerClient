@@ -2,30 +2,37 @@ package kryx07.expensereconcilerclient.ui.transactions
 
 import android.content.Context
 import android.widget.Toast
-import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.ShowProgress
+import kryx07.expensereconcilerclient.events.ShowRefresher
+import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedPrefs: SharedPreferencesManager, val database: MyDatabase) {
+class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
+                                                var context: Context,
+                                                val sharedPrefs: SharedPreferencesManager,
+                                                val database: MyDatabase) {
+
 
     private var view: TransactionsMvpView? = null
-//    lateinit var database: MyDatabase
+
 
     fun attach(transactionsMvpView: TransactionsMvpView) {
         this.view = transactionsMvpView
-        Timber.plant(Timber.DebugTree())
-//        database = App.database
+//        Timber.plant(Timber.DebugTree())
+        Timber.wtf("Registering Presenter as EventBus Subscriber")
+        EventBus.getDefault().register(this)
     }
 
 
@@ -34,8 +41,11 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var co
     }
 
     fun start() {
+        requestTransactions()
+    }
 
-        EventBus.getDefault().post(ShowProgress())
+    private fun requestTransactions() {
+        showProgress()
 
         apiClient.service.getTransactions(sharedPrefs.read(context.getString(R.string.my_user)))
                 .enqueue(object : Callback<Transactions> {
@@ -51,34 +61,42 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient, var co
                             Timber.e("Read from db: " + database.transactionDao().getAll().toString())
 
                         }
-                        EventBus.getDefault().post(HideProgress())
-
+                        hideProgress()
                     }
 
                     override fun onFailure(call: Call<Transactions>?, t: Throwable?) {
-                        Timber.e(context.getString(R.string.fetching_error))
-                        Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
-                        EventBus.getDefault().post(HideProgress())
+                        showErrorMessage()
+                        hideProgress()
                     }
-
                 })
     }
 
-    /* fun getAllTransactions(): Transactions? {
-         var payables: Transactions? = null
-         apiClient.service.payables.enqueue(object : Callback<Transactions> {
-             override fun onResponse(call: Call<Transactions>?, response: Response<Transactions>?) {
-                 if (response!!.isSuccessful) {
-                     payables = response.body()
-                 }
-             }
+    @Subscribe()
+    fun onRefresh(showRefresher: ShowRefresher) {
+        if (view != null) {
+            if (showRefresher.fragmentTAG == view!!.provideTAG())
 
-             override fun onFailure(call: Call<Transactions>?, t: Throwable?) {
-                 Timber.e(context.getString(R.string.fetching_error))
-             }
+                Timber.e("onRefresh received")
+            requestTransactions()
+        } else {
+            Timber.e("View is null")
+        }
 
-         })
+    }
 
-         return payables
-     }*/
+    private fun showProgress() {
+        EventBus.getDefault().post(ShowProgress())
+        //EventBus.getDefault().post(ShowRefresher())
+    }
+
+    private fun hideProgress() {
+        EventBus.getDefault().post(HideProgress())
+        EventBus.getDefault().post(HideRefresher())
+    }
+
+    private fun showErrorMessage() {
+        Timber.e(context.getString(R.string.fetching_error))
+        Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
+    }
+
 }

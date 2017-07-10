@@ -30,7 +30,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var contex
 
     fun attach(payablesMvpView: PayablesMvpView) {
         this.view = payablesMvpView
-        Timber.plant(Timber.DebugTree())
+//        Timber.plant(Timber.DebugTree())
 //        this.database = App.database
     }
 

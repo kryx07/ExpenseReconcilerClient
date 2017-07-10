@@ -16,7 +16,7 @@ class TransactionsAdapter : RecyclerView.Adapter<TransactionsAdapter.Transaction
 
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionsHolder {
-        Timber.plant(Timber.DebugTree())
+//        Timber.plant(Timber.DebugTree())
         Timber.e("onCreateViewHolder")
         return TransactionsHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_transactions_adapter, parent, false))
     }

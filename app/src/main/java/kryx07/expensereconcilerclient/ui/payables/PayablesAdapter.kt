@@ -18,7 +18,7 @@ class PayablesAdapter(var currentUserName: String) : RecyclerView.Adapter<Payabl
     var payables = Payables(mutableListOf<Payable>())
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PayablesHolder {
-        Timber.plant(Timber.DebugTree())
+//        Timber.plant(Timber.DebugTree())
         Timber.e("onCreateViewHolder")
         return PayablesHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_payables_adapter, parent, false), currentUserName)
     }
