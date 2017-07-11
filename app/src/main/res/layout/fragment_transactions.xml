@@ -21,6 +21,6 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_plus_white_48dp"
         app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="kryx07.expensereconcilerclient.ui.ScrollAwareFABBehavior" />
+        app:layout_behavior="kryx07.expensereconcilerclient.ui.config.ScrollAwareFABBehavior" />
 
 </android.support.design.widget.CoordinatorLayout>

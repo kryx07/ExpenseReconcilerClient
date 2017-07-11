@@ -2,6 +2,7 @@ package kryx07.expensereconcilerclient.ui.transactions
 
 import android.arch.persistence.room.util.StringUtil
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -39,18 +40,16 @@ class PayablesAdapter(var currentUserName: String) : RecyclerView.Adapter<Payabl
             //itemView.amount.text = "%.2f".format(payable.amount) + " " + itemView.context.getString(R.string.currency)
             itemView.amount.text = StringUtilities.formatCurrency(payable.amount, itemView.context.getString(R.string.currency))
             if (payable.debtor.userName.toString() == currentUserId) {
-                itemView.type.text = "Payable"
-                //itemView.type.setTextColor(Color.RED)
+                itemView.type.text = itemView.context.getString(R.string.payable)
                 itemView.direction.text = " -> "
                 itemView.another_person.text = payable.payer.userName
-                itemView.amount.setTextColor(Color.RED)
+                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
 
             } else if (payable.payer.userName.toString() == currentUserId) {
-                itemView.type.text = "Receivable"
-//                itemView.type.setTextColor(Color.GREEN)
+                itemView.type.text = itemView.context.getString(R.string.receivable)
                 itemView.direction.text = " <- "
                 itemView.another_person.text = payable.debtor.userName
-                itemView.amount.setTextColor(Color.GREEN)
+                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
             }
 
         }

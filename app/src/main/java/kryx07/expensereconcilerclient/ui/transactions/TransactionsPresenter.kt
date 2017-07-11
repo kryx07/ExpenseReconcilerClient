@@ -37,6 +37,7 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
 
 
     fun detach() {
+        EventBus.getDefault().unregister(this)
         this.view = null
     }
 
@@ -74,7 +75,7 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
     @Subscribe()
     fun onRefresh(showRefresher: ShowRefresher) {
         if (view != null) {
-            if (showRefresher.fragmentTAG == view!!.provideTAG())
+            if (showRefresher.fragment == view)
 
                 Timber.e("onRefresh received")
             requestTransactions()

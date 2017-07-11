@@ -7,5 +7,8 @@
     <color name="yellow">#e1ba10</color>
     <color name="light_yellow">#dcd85e</color>
     <color name="orange">#f47b4f</color>
+    <color name="green">#198919</color>
+    <color name="red">#E50000</color>
+
 
 </resources>

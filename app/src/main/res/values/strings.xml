@@ -16,5 +16,7 @@
     <string name="my_user">MY_USER</string>
     <string name="receivables_total">Receivables Total: </string>
     <string name="payables_total">Payables Total: </string>
+    <string name="payable">Payable</string>
+    <string name="receivable">Receivable</string>
 
 </resources>

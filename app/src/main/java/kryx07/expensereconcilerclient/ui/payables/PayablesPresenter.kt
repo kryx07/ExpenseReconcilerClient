@@ -1,21 +1,18 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
 import android.content.Context
-import android.graphics.Color
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_payables.*
-import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.base.BasePresenter
+import kryx07.expensereconcilerclient.base.MvpView
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.events.ShowRefresher
 import kryx07.expensereconcilerclient.model.transactions.Payables
-import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
-import kryx07.expensereconcilerclient.utils.StringUtilities
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
@@ -25,24 +22,23 @@ import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var context: Context, val sharedprefs: SharedPreferencesManager, val database: MyDatabase) {
+class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
+                                            var context: Context,
+                                            val sharedprefs: SharedPreferencesManager,
+                                            val database: MyDatabase) : BasePresenter<PayablesMvpView>() {
 
-    private var view: PayablesMvpView? = null
-
-//    lateinit var database: MyDatabase
-
-    fun attach(payablesMvpView: PayablesMvpView) {
-        this.view = payablesMvpView
-//        Timber.plant(Timber.DebugTree())
-//        this.database = App.database
+    //override var view: PayablesMvpView
+    override fun attachView(view: PayablesMvpView) {
+        super.attachView(view)
+        EventBus.getDefault().register(this)
     }
 
-    fun detach() {
-        this.view = null
+    override fun detach() {
+        EventBus.getDefault().unregister(this)
+        super.detach()
     }
 
     fun start() {
-
         requestPayables()
     }
 
@@ -76,7 +72,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient, var contex
     @Subscribe()
     fun onRefresh(showRefresher: ShowRefresher) {
         if (view != null) {
-            if (showRefresher.fragmentTAG == view!!.provideTAG())
+            if (showRefresher.fragment == view)
 
                 Timber.e("onRefresh received")
             requestPayables()

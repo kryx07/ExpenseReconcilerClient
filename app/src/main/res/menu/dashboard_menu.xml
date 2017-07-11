@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/menu_transactions"
-        android:icon="@drawable/ic_mood_black_24dp"
+        android:icon="@drawable/ic_compare_arrows_black_48dp"
         android:title="@string/transactions" />
 
     <item
         android:id="@+id/menu_payables"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/ic_attach_money_black_48dp"
         android:title="@string/payables" />
 
 </menu>

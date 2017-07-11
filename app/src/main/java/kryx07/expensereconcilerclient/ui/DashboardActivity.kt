@@ -23,8 +23,7 @@ import org.greenrobot.eventbus.Subscribe
 import timber.log.Timber
 import javax.inject.Inject
 import android.support.v4.widget.SwipeRefreshLayout
-import butterknife.OnClick
-import kryx07.expensereconcilerclient.base.MvpView
+import kryx07.expensereconcilerclient.base.Refreshable
 import kryx07.expensereconcilerclient.events.ShowRefresher
 import kryx07.expensereconcilerclient.events.HideRefresher
 
@@ -38,7 +37,6 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         ButterKnife.bind(this)
-        //Timber.plant(Timber.DebugTree())
         EventBus.getDefault().register(this)
 
         setupDrawerAndToolbar()
@@ -55,6 +53,11 @@ class DashboardActivity : AppCompatActivity() {
 
         //my_button.setOnClickListener { Timber.e(getVisibleFragment().toString()) }
 
+    }
+
+    override fun onDestroy() {
+        EventBus.getDefault().unregister(this)
+        super.onDestroy()
     }
 
     private fun setupDrawerAndToolbar() {
@@ -84,11 +87,11 @@ class DashboardActivity : AppCompatActivity() {
     fun setupSwipeRefresher() {
 
         swipe_refresher.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            val visibleFragment: MvpView? = getVisibleFragment()
+            val visibleFragment: Refreshable? = getVisibleFragment()
             if (visibleFragment != null) {
-                EventBus.getDefault().post(ShowRefresher(visibleFragment.provideTAG()))
+                EventBus.getDefault().post(ShowRefresher(visibleFragment))
             } else {
-                Timber.e("There is no visible fragmentTAG")
+                Timber.e("There is no visible fragment")
             }
             swipe_refresher.setColorSchemeResources(
                     R.color.colorPrimary,
@@ -136,26 +139,37 @@ class DashboardActivity : AppCompatActivity() {
         val manager = supportFragmentManager
 
         if (manager.findFragmentByTag(tag) == null) {
-            // This fragmentTAG does not lie on back stack, need to be added
+            // This fragment does not lie on back stack, need to be added
             manager.beginTransaction()
-                    // Add a tag to prevent duplicating insertions of the same fragmentTAG
+                    // Add a tag to prevent duplicating insertions of the same fragment
                     .replace(R.id.fragment_container, fragment, tag)
                     .addToBackStack(tag)
                     .commit()
         } else {
-            // Get the fragmentTAG from the back stack
+            // Get the fragment from the back stack
             manager.popBackStackImmediate(tag, 0)
         }
         dashboard_drawer.closeDrawer(Gravity.START)
     }
 
-    fun getVisibleFragment(): MvpView? {
+    fun getVisibleFragmentOld(): Refreshable? {
         val fragmentManager = this.supportFragmentManager
         val fragments = fragmentManager.fragments
         if (fragments != null) {
             fragments
                     .filter { it != null && it.isVisible }
-                    .forEach { return it as MvpView }
+                    .forEach { return it as Refreshable }
+        }
+        return null
+    }
+
+    fun getVisibleFragment(): Refreshable? {
+        val fragmentManager = this.supportFragmentManager
+        val fragments = fragmentManager.fragments
+        if (fragments != null) {
+            fragments
+                    .filter { it != null && it.isVisible && it is Refreshable }
+                    .forEach { return it as Refreshable }
         }
         return null
     }
