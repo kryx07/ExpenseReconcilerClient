@@ -3,6 +3,7 @@ package kryx07.expensereconcilerclient.ui.transactions
 import android.content.Context
 import android.widget.Toast
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.base.BasePresenter
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.ShowProgress
@@ -22,23 +23,16 @@ import javax.inject.Inject
 class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
                                                 var context: Context,
                                                 val sharedPrefs: SharedPreferencesManager,
-                                                val database: MyDatabase) {
+                                                val database: MyDatabase) : BasePresenter<TransactionsMvpView>() {
 
-
-    private var view: TransactionsMvpView? = null
-
-
-    fun attach(transactionsMvpView: TransactionsMvpView) {
-        this.view = transactionsMvpView
-//        Timber.plant(Timber.DebugTree())
-        Timber.wtf("Registering Presenter as EventBus Subscriber")
+    override fun attachView(view: TransactionsMvpView) {
+        super.attachView(view)
         EventBus.getDefault().register(this)
     }
 
-
-    fun detach() {
+    override fun detach() {
         EventBus.getDefault().unregister(this)
-        this.view = null
+        super.detach()
     }
 
     fun start() {

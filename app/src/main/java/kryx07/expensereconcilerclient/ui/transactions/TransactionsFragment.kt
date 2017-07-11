@@ -15,9 +15,6 @@ import kryx07.expensereconcilerclient.ui.DashboardActivity
 import javax.inject.Inject
 
 class TransactionsFragment : Fragment(), TransactionsMvpView {
-   /* override fun provideTAG(): String {
-        return TAG
-    }*/
 
     val TAG: String = this::class.java.javaClass.name
 
@@ -43,7 +40,7 @@ class TransactionsFragment : Fragment(), TransactionsMvpView {
         view.transactions_recycler.layoutManager = LinearLayoutManager(context)
         view.transactions_recycler.adapter = adapter
 
-        presenter.attach(this)
+        presenter.attachView(this)
 
         (activity as DashboardActivity).supportActionBar?.setTitle(R.string.transactions)
         return view

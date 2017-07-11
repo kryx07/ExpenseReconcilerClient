@@ -43,13 +43,13 @@ class PayablesAdapter(var currentUserName: String) : RecyclerView.Adapter<Payabl
                 itemView.type.text = itemView.context.getString(R.string.payable)
                 itemView.direction.text = " -> "
                 itemView.another_person.text = payable.payer.userName
-                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
+                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
 
             } else if (payable.payer.userName.toString() == currentUserId) {
                 itemView.type.text = itemView.context.getString(R.string.receivable)
                 itemView.direction.text = " <- "
                 itemView.another_person.text = payable.debtor.userName
-                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.red))
+                itemView.amount.setTextColor(ContextCompat.getColor(itemView.context, R.color.green))
             }
 
         }
