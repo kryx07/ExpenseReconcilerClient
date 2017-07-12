@@ -1,7 +1,5 @@
-package kryx07.expensereconcilerclient.ui.transactions
+package kryx07.expensereconcilerclient.ui.payables
 
-import android.arch.persistence.room.util.StringUtil
-import android.graphics.Color
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -19,7 +17,6 @@ class PayablesAdapter(var currentUserName: String) : RecyclerView.Adapter<Payabl
     var payables = Payables(mutableListOf<Payable>())
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PayablesHolder {
-//        Timber.plant(Timber.DebugTree())
         Timber.e("onCreateViewHolder")
         return PayablesHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_payables_adapter, parent, false), currentUserName)
     }

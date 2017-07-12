@@ -18,5 +18,8 @@
     <string name="payables_total">Payables Total: </string>
     <string name="payable">Payable</string>
     <string name="receivable">Receivable</string>
+    <string name="date">Date</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
 
 </resources>

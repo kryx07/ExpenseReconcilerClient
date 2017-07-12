@@ -84,7 +84,7 @@ class DashboardActivity @Inject constructor() : AppCompatActivity() {
         dashboard_progress.visibility = View.GONE
     }
 
-    private fun showFragment(fragment: Fragment) {
+     fun showFragment(fragment: Fragment) {
         val tag = fragment.javaClass.name
         val manager = supportFragmentManager
 

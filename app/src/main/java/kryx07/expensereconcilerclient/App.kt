@@ -14,12 +14,10 @@ class App : Application() {
 
     companion object {
         lateinit var appComponent: AppComponent
-        //lateinit var database: MyDatabase
     }
 
     override fun onCreate() {
         super.onCreate()
-        //initRoom()
         initDagger()
         initTimber()
     }
@@ -28,16 +26,6 @@ class App : Application() {
         Timber.plant(Timber.DebugTree())
     }
 
-    private fun initRoom() {
-        /*      Realm.init(this)
-              val configuration = RealmConfiguration.Builder().build()
-              Realm.setDefaultConfiguration(configuration)
-      */
-        /*database = Room
-                .databaseBuilder(this, MyDatabase::class.java, "we-need-db")
-                .allowMainThreadQueries()
-                .build()*/
-    }
 
     private fun initDagger() {
         appComponent = DaggerAppComponent.builder()

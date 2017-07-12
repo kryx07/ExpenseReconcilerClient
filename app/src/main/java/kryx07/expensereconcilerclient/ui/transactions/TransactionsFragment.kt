@@ -1,23 +1,32 @@
 package kryx07.expensereconcilerclient.ui.transactions
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.fragment_transactions.*
 import kotlinx.android.synthetic.main.fragment_transactions.view.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.base.RefreshableFragment
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.ui.DashboardActivity
+import kryx07.expensereconcilerclient.ui.transactions.detail.TransactionDetailFragment
 import javax.inject.Inject
+import android.support.design.widget.FloatingActionButton
+import butterknife.BindView
+
 
 class TransactionsFragment : RefreshableFragment(), TransactionsMvpView {
 
     @Inject lateinit var presenter: TransactionsPresenter
     lateinit var adapter: TransactionsAdapter
+
+    @JvmField @BindView(R.id.fab)
+    var floatingActionButton: FloatingActionButton? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -25,6 +34,7 @@ class TransactionsFragment : RefreshableFragment(), TransactionsMvpView {
         super.onCreateView(inflater, view.transactions_swipe_refresher, savedInstanceState)
         ButterKnife.bind(this, view)
         App.appComponent.inject(this)
+        setupFab()
 
         //Adapter setup
         adapter = TransactionsAdapter()
@@ -39,7 +49,7 @@ class TransactionsFragment : RefreshableFragment(), TransactionsMvpView {
 
     override fun onStart() {
         super.onStart()
-        presenter.start()
+         presenter.start()
     }
 
     override fun onDestroyView() {
@@ -53,6 +63,19 @@ class TransactionsFragment : RefreshableFragment(), TransactionsMvpView {
 
     override fun onRefresh() {
         presenter.requestTransactions()
+    }
+
+
+    fun setupFab() {
+
+      /*  (activity as DashboardActivity).showFragment(TransactionDetailFragment())
+
+        floatingActionButton?.setOnClickListener {
+            val ft = fragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, TransactionDetailFragment(), javaClass.name)
+            ft.commit()
+
+        }*/
     }
 
 

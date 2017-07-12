@@ -1,4 +1,4 @@
-package kryx07.expensereconcilerclient.ui.transactions
+package kryx07.expensereconcilerclient.ui.transactions.detail
 
 import android.content.Context
 import android.widget.Toast
@@ -6,10 +6,11 @@ import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.base.BasePresenter
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
-import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.events.HideRefresher
+import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
+import kryx07.expensereconcilerclient.ui.transactions.TransactionDetailMvpView
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
@@ -18,10 +19,13 @@ import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
-                                                var context: Context,
-                                                val sharedPrefs: SharedPreferencesManager,
-                                                val database: MyDatabase) : BasePresenter<TransactionsMvpView>() {
+/**
+ * Created by wd40 on 13.07.17.
+ */
+class TransactionDetailPresenter @Inject constructor(var apiClient: ApiClient,
+                                                     var context: Context,
+                                                     val sharedPrefs: SharedPreferencesManager,
+                                                     val database: MyDatabase) : BasePresenter<TransactionDetailMvpView>() {
 
     fun start() {
         requestTransactions()
@@ -68,5 +72,6 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
         Timber.e(context.getString(R.string.fetching_error))
         Toast.makeText(context, context.getString(R.string.fetching_error), Toast.LENGTH_LONG).show()
     }
+
 
 }

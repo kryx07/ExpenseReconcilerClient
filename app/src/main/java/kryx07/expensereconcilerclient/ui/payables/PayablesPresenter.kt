@@ -1,4 +1,4 @@
-package kryx07.expensereconcilerclient.ui.transactions
+package kryx07.expensereconcilerclient.ui.payables
 
 import android.content.Context
 import android.widget.Toast
@@ -10,6 +10,7 @@ import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.model.transactions.Payables
 import kryx07.expensereconcilerclient.network.ApiClient
+import kryx07.expensereconcilerclient.ui.transactions.PayablesMvpView
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
@@ -23,14 +24,6 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
                                             var context: Context,
                                             val sharedprefs: SharedPreferencesManager,
                                             val database: MyDatabase) : BasePresenter<PayablesMvpView>() {
-
-    override fun attachView(view: PayablesMvpView) {
-        super.attachView(view)
-    }
-
-    override fun detach() {
-        super.detach()
-    }
 
     fun start() {
         requestPayables()

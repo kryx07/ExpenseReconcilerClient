@@ -5,6 +5,7 @@ import javax.inject.Singleton
 
 import kryx07.expensereconcilerclient.ui.DashboardActivity
 import kryx07.expensereconcilerclient.ui.payables.PayablesFragment
+import kryx07.expensereconcilerclient.ui.transactions.detail.TransactionDetailFragment
 import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 
 @Singleton
@@ -15,6 +16,7 @@ interface AppComponent {
 
     fun inject(transactionsFragment: TransactionsFragment)
     fun inject(payablesFragment: PayablesFragment)
+    fun inject(transactionDetailFragment: TransactionDetailFragment)
     /*void inject(LoginActivity loginActivity);
 
     void inject(DashboardActivity mainActivity);
