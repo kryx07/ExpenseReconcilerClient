@@ -37,10 +37,6 @@ class TransactionsFragment : RefreshableFragment(), TransactionsMvpView {
         return view
     }
 
-    override fun getItemCount(): Int {
-        return adapter.itemCount
-    }
-
     override fun onStart() {
         super.onStart()
         presenter.start()

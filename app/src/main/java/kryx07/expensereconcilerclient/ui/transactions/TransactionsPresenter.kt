@@ -7,13 +7,11 @@ import kryx07.expensereconcilerclient.base.BasePresenter
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.ShowProgress
-import kryx07.expensereconcilerclient.events.ShowRefresher
 import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

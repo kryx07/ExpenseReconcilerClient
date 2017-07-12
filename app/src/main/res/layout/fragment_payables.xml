@@ -1,63 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/payables_swipe_refresher"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="?attr/actionBarSize">
+    android:layout_height="wrap_content">
 
-    <!--  <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
-  -->
-    <TextView
-        android:id="@+id/receivables_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/margin_item_adapter"
-        android:paddingTop="@dimen/margin_item_adapter"
-        android:text="@string/receivables_total"
-        android:textSize="@dimen/enlarged_text"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/payables_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/receivables_total"
-        android:layout_marginBottom="@dimen/margin_item_adapter"
-        android:paddingBottom="@dimen/margin_item_adapter"
-        android:paddingStart="@dimen/margin_item_adapter"
-        android:text="@string/payables_total"
-        android:textSize="@dimen/enlarged_text"
-
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/receivables_total_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/receivables_total"
-        android:paddingStart="@dimen/margin_item_adapter"
-        android:paddingTop="@dimen/margin_item_adapter"
-        android:textSize="@dimen/enlarged_text" />
-
-    <TextView
-        android:id="@+id/payables_total_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/receivables_total"
-        android:layout_marginBottom="@dimen/margin_item_adapter"
-        android:layout_toEndOf="@id/payables_total"
-        android:paddingStart="@dimen/margin_item_adapter"
-        android:textSize="@dimen/enlarged_text" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/payables_recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/payables_total_amount" />
-    <!--</RelativeLayout>-->
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/receivables_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/margin_item_adapter"
+            android:paddingTop="@dimen/margin_item_adapter"
+            android:text="@string/receivables_total"
+            android:textSize="@dimen/enlarged_text"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/payables_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/receivables_total"
+            android:layout_marginBottom="@dimen/margin_item_adapter"
+            android:paddingBottom="@dimen/margin_item_adapter"
+            android:paddingStart="@dimen/margin_item_adapter"
+            android:text="@string/payables_total"
+            android:textSize="@dimen/enlarged_text"
+
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/receivables_total_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/receivables_total"
+            android:paddingStart="@dimen/margin_item_adapter"
+            android:paddingTop="@dimen/margin_item_adapter"
+            android:textSize="@dimen/enlarged_text" />
+
+        <TextView
+            android:id="@+id/payables_total_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/receivables_total"
+            android:layout_marginBottom="@dimen/margin_item_adapter"
+            android:layout_toEndOf="@id/payables_total"
+            android:paddingStart="@dimen/margin_item_adapter"
+            android:textSize="@dimen/enlarged_text" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/payables_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/payables_total_amount" />
+    </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

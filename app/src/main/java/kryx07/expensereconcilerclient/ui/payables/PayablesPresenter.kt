@@ -4,17 +4,14 @@ import android.content.Context
 import android.widget.Toast
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.base.BasePresenter
-import kryx07.expensereconcilerclient.base.MvpView
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.HideRefresher
 import kryx07.expensereconcilerclient.events.ShowProgress
-import kryx07.expensereconcilerclient.events.ShowRefresher
 import kryx07.expensereconcilerclient.model.transactions.Payables
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,14 +24,11 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
                                             val sharedprefs: SharedPreferencesManager,
                                             val database: MyDatabase) : BasePresenter<PayablesMvpView>() {
 
-    //override var view: PayablesMvpView
     override fun attachView(view: PayablesMvpView) {
         super.attachView(view)
-        EventBus.getDefault().register(this)
     }
 
     override fun detach() {
-        EventBus.getDefault().unregister(this)
         super.detach()
     }
 
@@ -51,7 +45,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
                 if (response!!.isSuccessful) {
                     Timber.e(response.body().toString())
                     val payables = response.body()
-                    view?.updateData(payables)
+                    view.updateData(payables)
                     setTotals(payables)
                     payables.payables.forEach { p ->
                         database.payablesDao().insert(p)
@@ -68,19 +62,6 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
 
         })
     }
-
-    /*@Subscribe()
-    fun onRefresh(showRefresher: ShowRefresher) {
-        if (view != null) {
-            if (showRefresher.fragment == view)
-
-                Timber.e("onRefresh received")
-            requestPayables()
-        } else {
-            Timber.e("View is null")
-        }
-
-    }*/
 
     private fun showProgress() {
         EventBus.getDefault().post(ShowProgress())
@@ -104,7 +85,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
             }
         }
 
-        view?.updateTotals(myReceivables, myPayables)
+        view.updateTotals(myReceivables, myPayables)
     }
 
     private fun showErrorMessage() {

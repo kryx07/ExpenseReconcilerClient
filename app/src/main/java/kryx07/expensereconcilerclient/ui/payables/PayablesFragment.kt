@@ -1,7 +1,6 @@
 package kryx07.expensereconcilerclient.ui.payables
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -12,6 +11,7 @@ import kotlinx.android.synthetic.main.fragment_payables.*
 import kotlinx.android.synthetic.main.fragment_payables.view.*
 import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
+import kryx07.expensereconcilerclient.base.RefreshableFragment
 import kryx07.expensereconcilerclient.model.transactions.Payables
 import kryx07.expensereconcilerclient.ui.DashboardActivity
 import kryx07.expensereconcilerclient.ui.transactions.*
@@ -21,16 +21,17 @@ import java.math.BigDecimal
 import javax.inject.Inject
 
 
-class PayablesFragment : Fragment(), PayablesMvpView {
+class PayablesFragment : RefreshableFragment(), PayablesMvpView {
 
 
     @Inject lateinit var presenter: PayablesPresenter
     @Inject lateinit var sharedPrefs: SharedPreferencesManager
-    var adapter: PayablesAdapter? = null
+    lateinit var adapter: PayablesAdapter
     lateinit var myUserName: String
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater!!.inflate(R.layout.fragment_payables, container, false)
+        super.onCreateView(inflater, view.payables_swipe_refresher, savedInstanceState)
         ButterKnife.bind(this, view)
         App.appComponent.inject(this)
 
@@ -57,14 +58,19 @@ class PayablesFragment : Fragment(), PayablesMvpView {
     }
 
     override fun updateData(payables: Payables) {
-        adapter?.updateData(payables)
+        adapter.updateData(payables)
     }
+
 
     override fun updateTotals(receivablesTotal: BigDecimal, payablesTotal: BigDecimal) {
         payables_total_amount.text = StringUtilities.formatCurrency(payablesTotal, getString(R.string.currency))
         receivables_total_amount.text = StringUtilities.formatCurrency(receivablesTotal, getString(R.string.currency))
-        payables_total_amount.setTextColor(ContextCompat.getColor(context,R.color.red))
-        receivables_total_amount.setTextColor(ContextCompat.getColor(context,R.color.green))
+        payables_total_amount.setTextColor(ContextCompat.getColor(context, R.color.red))
+        receivables_total_amount.setTextColor(ContextCompat.getColor(context, R.color.green))
+    }
+
+    override fun onRefresh() {
+        presenter.requestPayables()
     }
 
 }
