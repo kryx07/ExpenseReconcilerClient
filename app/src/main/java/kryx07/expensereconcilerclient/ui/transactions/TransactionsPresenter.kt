@@ -27,11 +27,11 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
 
     override fun attachView(view: TransactionsMvpView) {
         super.attachView(view)
-        EventBus.getDefault().register(this)
+//        EventBus.getDefault().register(this)
     }
 
     override fun detach() {
-        EventBus.getDefault().unregister(this)
+//        EventBus.getDefault().unregister(this)
         super.detach()
     }
 
@@ -39,7 +39,7 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
         requestTransactions()
     }
 
-    private fun requestTransactions() {
+    fun requestTransactions() {
         showProgress()
 
         apiClient.service.getTransactions(sharedPrefs.read(context.getString(R.string.my_user)))
@@ -66,21 +66,9 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
                 })
     }
 
-    @Subscribe()
-    fun onRefresh(showRefresher: ShowRefresher) {
-        if (view != null) {
-            if (showRefresher.fragment == view)
-
-                Timber.e("onRefresh received")
-            requestTransactions()
-        } else {
-            Timber.e("View is null")
-        }
-
-    }
-
     private fun showProgress() {
         EventBus.getDefault().post(ShowProgress())
+
     }
 
     private fun hideProgress() {

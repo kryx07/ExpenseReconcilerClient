@@ -7,4 +7,6 @@ interface TransactionsMvpView : Refreshable {
 
     fun updateData(transactions: Transactions)
 
+    fun getItemCount(): Int
+
 }

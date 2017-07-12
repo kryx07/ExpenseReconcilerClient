@@ -42,7 +42,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
         requestPayables()
     }
 
-    private fun requestPayables() {
+    fun requestPayables() {
         showProgress()
 
         apiClient.service.getPayables(sharedprefs.read(context.getString(R.string.my_user))).enqueue(object : Callback<Payables> {
@@ -69,7 +69,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
         })
     }
 
-    @Subscribe()
+    /*@Subscribe()
     fun onRefresh(showRefresher: ShowRefresher) {
         if (view != null) {
             if (showRefresher.fragment == view)
@@ -80,7 +80,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
             Timber.e("View is null")
         }
 
-    }
+    }*/
 
     private fun showProgress() {
         EventBus.getDefault().post(ShowProgress())

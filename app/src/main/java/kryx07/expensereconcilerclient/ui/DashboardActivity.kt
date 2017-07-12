@@ -14,23 +14,15 @@ import kryx07.expensereconcilerclient.App
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.events.HideProgress
 import kryx07.expensereconcilerclient.events.ShowProgress
-import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.ui.payables.PayablesFragment
 import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
-import timber.log.Timber
 import javax.inject.Inject
-import android.support.v4.widget.SwipeRefreshLayout
-import kryx07.expensereconcilerclient.base.Refreshable
-import kryx07.expensereconcilerclient.events.ShowRefresher
-import kryx07.expensereconcilerclient.events.HideRefresher
 
+class DashboardActivity @Inject constructor() : AppCompatActivity() {
 
-class DashboardActivity : AppCompatActivity() {
-
-    @Inject lateinit var apiClient: ApiClient
     @Inject lateinit var sharedPreferencesManager: SharedPreferencesManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +32,6 @@ class DashboardActivity : AppCompatActivity() {
         EventBus.getDefault().register(this)
 
         setupDrawerAndToolbar()
-        setupSwipeRefresher()
         if (savedInstanceState == null) {
             showFragment(TransactionsFragment())
         }
@@ -50,9 +41,6 @@ class DashboardActivity : AppCompatActivity() {
         sharedPreferencesManager.write(getString(R.string.my_user), "testuser1")
 
         dashboard_progress.indeterminateDrawable.setColorFilter(Color.GRAY, android.graphics.PorterDuff.Mode.SRC_IN)
-
-        //my_button.setOnClickListener { Timber.e(getVisibleFragment().toString()) }
-
     }
 
     override fun onDestroy() {
@@ -84,54 +72,16 @@ class DashboardActivity : AppCompatActivity() {
         })
     }
 
-    fun setupSwipeRefresher() {
-
-        swipe_refresher.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            val visibleFragment: Refreshable? = getVisibleFragment()
-            if (visibleFragment != null) {
-                EventBus.getDefault().post(ShowRefresher(visibleFragment))
-            } else {
-                Timber.e("There is no visible fragment")
-            }
-            swipe_refresher.setColorSchemeResources(
-                    R.color.colorPrimary,
-                    R.color.accent_material_light,
-                    R.color.dark_yellow,
-                    R.color.colorAccent)
-            showSwipeRefresher()
-            Timber.e("On refresh listener")
-        })
-
-    }
-
-    @Subscribe
-    fun onHideSwipeRefresher(hideRefresher: HideRefresher) {
-        Timber.e("On hide event received")
-        hideSwipeRefresher()
-    }
-
-    private fun showSwipeRefresher() {
-        Timber.e("SwipeRefresher shown")
-        swipe_refresher.isRefreshing = true
-    }
-
-    private fun hideSwipeRefresher() {
-        Timber.e("SwipeRefresher hidden")
-        swipe_refresher.isRefreshing = false
-    }
-
     @Subscribe
     fun onShowProgress(showProgress: ShowProgress) {
         fragment_container.visibility = View.INVISIBLE
         dashboard_progress.visibility = View.VISIBLE
-
     }
 
     @Subscribe
     fun onHideProgress(showProgress: HideProgress) {
         fragment_container.visibility = View.VISIBLE
         dashboard_progress.visibility = View.GONE
-
     }
 
     private fun showFragment(fragment: Fragment) {
@@ -150,28 +100,6 @@ class DashboardActivity : AppCompatActivity() {
             manager.popBackStackImmediate(tag, 0)
         }
         dashboard_drawer.closeDrawer(Gravity.START)
-    }
-
-    fun getVisibleFragmentOld(): Refreshable? {
-        val fragmentManager = this.supportFragmentManager
-        val fragments = fragmentManager.fragments
-        if (fragments != null) {
-            fragments
-                    .filter { it != null && it.isVisible }
-                    .forEach { return it as Refreshable }
-        }
-        return null
-    }
-
-    fun getVisibleFragment(): Refreshable? {
-        val fragmentManager = this.supportFragmentManager
-        val fragments = fragmentManager.fragments
-        if (fragments != null) {
-            fragments
-                    .filter { it != null && it.isVisible && it is Refreshable }
-                    .forEach { return it as Refreshable }
-        }
-        return null
     }
 
 }

@@ -14,7 +14,6 @@ class TransactionsAdapter : RecyclerView.Adapter<TransactionsAdapter.Transaction
 
     var transactions = Transactions(mutableListOf<Transaction>())
 
-
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): TransactionsHolder {
 //        Timber.plant(Timber.DebugTree())
         Timber.e("onCreateViewHolder")

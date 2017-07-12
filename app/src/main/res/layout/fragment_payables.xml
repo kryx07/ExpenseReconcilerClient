@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/payables_swipe_refresher"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="?attr/actionBarSize">
 
+    <!--  <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+  -->
     <TextView
         android:id="@+id/receivables_total"
         android:layout_width="wrap_content"
@@ -52,4 +59,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/payables_total_amount" />
-</RelativeLayout>
+    <!--</RelativeLayout>-->
+</android.support.v4.widget.SwipeRefreshLayout>
