@@ -8,6 +8,9 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,11 +47,11 @@
             android:backgroundTint="@color/light_yellow"
             android:visibility="gone" />
 
-       <!-- <Button
-            android:id="@+id/my_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />-->
+        <!-- <Button
+             android:id="@+id/my_button"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true" />-->
 
     </RelativeLayout>
 

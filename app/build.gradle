@@ -62,7 +62,6 @@ dependencies {
     /*kapt 'com.google.dagger:dagger-compiler:2.9'
     annotationProcessor "com.google.dagger:dagger-compiler:2.9"*/
 
-
     //provided 'javax.annotation:jsr250-api:1.0'
     //compile 'org.jetbrains.kotlin:kotlin-reflect'
 
