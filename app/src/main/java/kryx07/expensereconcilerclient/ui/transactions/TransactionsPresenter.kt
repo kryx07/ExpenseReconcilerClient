@@ -6,8 +6,8 @@ import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.base.BasePresenter
 import kryx07.expensereconcilerclient.db.MyDatabase
 import kryx07.expensereconcilerclient.events.HideProgress
-import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.events.HideRefresher
+import kryx07.expensereconcilerclient.events.ShowProgress
 import kryx07.expensereconcilerclient.model.transactions.Transactions
 import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
@@ -36,9 +36,9 @@ class TransactionsPresenter @Inject constructor(var apiClient: ApiClient,
                         if (response!!.isSuccessful) {
                             Timber.e(response.body().toString())
                             val transactions = response.body()
-                            view?.updateData(transactions)
+                            view?.updateData(transactions!!)
 
-                            for (transaction in transactions.transactions) {
+                            for (transaction in transactions!!.transactions) {
                                 database.transactionDao().insert(transaction)
                             }
                             Timber.e("Read from db: " + database.transactionDao().getAll().toString())

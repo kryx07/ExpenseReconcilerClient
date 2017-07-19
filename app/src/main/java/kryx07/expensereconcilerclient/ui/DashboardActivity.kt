@@ -19,6 +19,7 @@ import kryx07.expensereconcilerclient.ui.transactions.TransactionsFragment
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class DashboardActivity @Inject constructor() : AppCompatActivity() {

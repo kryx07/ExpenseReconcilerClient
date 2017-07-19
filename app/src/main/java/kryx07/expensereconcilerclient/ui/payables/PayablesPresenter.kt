@@ -2,6 +2,9 @@ package kryx07.expensereconcilerclient.ui.payables
 
 import android.content.Context
 import android.widget.Toast
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kryx07.expensereconcilerclient.R
 import kryx07.expensereconcilerclient.base.BasePresenter
 import kryx07.expensereconcilerclient.db.MyDatabase
@@ -13,9 +16,6 @@ import kryx07.expensereconcilerclient.network.ApiClient
 import kryx07.expensereconcilerclient.ui.transactions.PayablesMvpView
 import kryx07.expensereconcilerclient.utils.SharedPreferencesManager
 import org.greenrobot.eventbus.EventBus
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -32,28 +32,26 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
     fun requestPayables() {
         showProgress()
 
-        apiClient.service.getPayables(sharedprefs.read(context.getString(R.string.my_user))).enqueue(object : Callback<Payables> {
-
-            override fun onResponse(call: Call<Payables>?, response: Response<Payables>?) {
-                if (response!!.isSuccessful) {
-                    Timber.e(response.body().toString())
-                    val payables = response.body()
+        val payablesObservable: Observable<Payables>? = apiClient.service.getPayables(sharedprefs.read("MY_USER"))
+        payablesObservable!!
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    payables ->
+                    Timber.e(payables.toString())
                     view.updateData(payables)
                     setTotals(payables)
                     payables.payables.forEach { p ->
                         database.payablesDao().insert(p)
                     }
                     Timber.e("Read from db: " + database.payablesDao().getAll().toString())
-                }
-                hideProgress()
-            }
+                    hideProgress()
 
-            override fun onFailure(call: Call<Payables>?, t: Throwable?) {
-                showErrorMessage()
-                hideProgress()
-            }
+                },{
+                    showErrorMessage()
+                    hideProgress()
+                })
 
-        })
     }
 
     private fun showProgress() {

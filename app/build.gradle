@@ -89,11 +89,16 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.0.0-alpha3"
 
     // RXJava
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    /*compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'*/
 
     //Recycler
     compile 'com.android.support:recyclerview-v7:25.3.1'
+
+//    RxJava
+    compile 'io.reactivex.rxjava2:rxjava:2.1.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 }
 
 kapt {

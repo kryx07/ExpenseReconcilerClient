@@ -19,9 +19,7 @@ import retrofit2.Response
 import timber.log.Timber
 import javax.inject.Inject
 
-/**
- * Created by wd40 on 13.07.17.
- */
+
 class TransactionDetailPresenter @Inject constructor(var apiClient: ApiClient,
                                                      var context: Context,
                                                      val sharedPrefs: SharedPreferencesManager,
@@ -40,9 +38,9 @@ class TransactionDetailPresenter @Inject constructor(var apiClient: ApiClient,
                         if (response!!.isSuccessful) {
                             Timber.e(response.body().toString())
                             val transactions = response.body()
-                            view?.updateData(transactions)
+                            view?.updateData(transactions!!)
 
-                            for (transaction in transactions.transactions) {
+                            for (transaction in transactions!!.transactions) {
                                 database.transactionDao().insert(transaction)
                             }
                             Timber.e("Read from db: " + database.transactionDao().getAll().toString())
