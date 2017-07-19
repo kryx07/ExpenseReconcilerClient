@@ -2,6 +2,7 @@ package kryx07.expensereconcilerclient.ui.payables
 
 import android.content.Context
 import android.widget.Toast
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,6 +28,7 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
 
     fun start() {
         requestPayables()
+        readPayablesFromDb()
     }
 
     fun requestPayables() {
@@ -34,24 +36,39 @@ class PayablesPresenter @Inject constructor(var apiClient: ApiClient,
 
         val payablesObservable: Observable<Payables>? = apiClient.service.getPayables(sharedprefs.read("MY_USER"))
         payablesObservable!!
-                .observeOn(AndroidSchedulers.mainThread())
+                //.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     payables ->
                     Timber.e(payables.toString())
-                    view.updateData(payables)
-                    setTotals(payables)
+                    //    view.updateData(payables)
+//                    setTotals(payables)
                     payables.payables.forEach { p ->
                         database.payablesDao().insert(p)
                     }
                     Timber.e("Read from db: " + database.payablesDao().getAll().toString())
-                    hideProgress()
+                }, {
 
-                },{
-                    showErrorMessage()
+                }, { })
+
+    }
+
+    fun readPayablesFromDb() {
+        database.payablesDao().getAll()
+                .subscribeOn(Schedulers.io())
+                .flatMap {
+                    list ->
+                    val payables = Payables(mutableListOf())
+                    payables.addAllImmutable(list)
+                    Flowable.just(payables)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    payables ->
+                    view.updateData(payables)
+                    setTotals(payables)
                     hideProgress()
                 })
-
     }
 
     private fun showProgress() {

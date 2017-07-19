@@ -7,6 +7,8 @@ data class Payables(var payables: MutableList<Payable>) : Serializable {
     fun clear() = this.payables.clear()
     fun addAll(payables: MutableList<Payable>) = this.payables.addAll(payables)
     fun addAll(payables: Payables) = this.payables.addAll(payables.payables)
+    fun addAllImmutable(payables: List<Payable>) = this.payables.addAll(payables)
+
 }
 
 
